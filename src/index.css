@@ -2,20 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Light theme styles */
-.light {
+/* CSS Variables for theme switching */
+:root {
   --bg-primary: #ffffff;
   --bg-secondary: #f8fafc;
   --text-primary: #1f2937;
   --text-secondary: #6b7280;
 }
 
-/* Dark theme styles (default) */
 .dark {
   --bg-primary: #111827;
   --bg-secondary: #1f2937;
   --text-primary: #f9fafb;
   --text-secondary: #d1d5db;
+}
+
+/* Light theme styles */
+body:not(.dark) {
+  background: linear-gradient(to bottom right, #ffffff, #f8fafc, #e2e8f0);
+}
+
+body:not(.dark) .bg-black {
+  background-color: #ffffff !important;
+  color: #1f2937 !important;
+}
+
+body:not(.dark) .bg-gray-900 {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+
+body:not(.dark) .bg-gray-800 {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+body:not(.dark) .text-white {
+  color: #1f2937 !important;
+}
+
+body:not(.dark) .text-gray-300 {
+  color: #4b5563 !important;
+}
+
+body:not(.dark) .text-gray-400 {
+  color: #6b7280 !important;
+}
+
+body:not(.dark) .border-gray-700 {
+  border-color: #d1d5db !important;
+}
+
+body:not(.dark) .border-gray-600 {
+  border-color: #e5e7eb !important;
 }
 
 /* Custom animations */

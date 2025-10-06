@@ -6,19 +6,39 @@ const ThemeToggle = () => {
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
     if (savedTheme) {
-      setIsDark(savedTheme === 'dark');
+      const darkMode = savedTheme === 'dark';
+      setIsDark(darkMode);
+      updateTheme(darkMode);
+    } else {
+      setIsDark(prefersDark);
+      updateTheme(prefersDark);
     }
   }, []);
 
-  useEffect(() => {
+  const updateTheme = (darkMode: boolean) => {
+    const root = document.documentElement;
+    
     if (isDark) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
+      root.classList.add('dark');
+      root.style.setProperty('--bg-primary', '#111827');
+      root.style.setProperty('--bg-secondary', '#1f2937');
+      root.style.setProperty('--text-primary', '#f9fafb');
+      root.style.setProperty('--text-secondary', '#d1d5db');
     } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
+      root.classList.remove('dark');
+      root.style.setProperty('--bg-primary', '#ffffff');
+      root.style.setProperty('--bg-secondary', '#f8fafc');
+      root.style.setProperty('--text-primary', '#1f2937');
+      root.style.setProperty('--text-secondary', '#6b7280');
     }
+  };
+
+  useEffect(() => {
+    updateTheme(isDark);
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
   }, [isDark]);
 
   const toggleTheme = () => {
