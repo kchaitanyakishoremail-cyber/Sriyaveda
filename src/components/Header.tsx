@@ -15,7 +15,7 @@ const Header = () => {
   ];
 
   return (
-    <header className="fixed top-0 w-full z-50 bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-orange-500/20 transition-all duration-300">
+    <header className="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-md border-b border-orange-500/20 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -38,7 +38,7 @@ const Header = () => {
               <a
                 key={item.href}
                 href={item.href}
-                className="text-gray-900 dark:text-white hover:text-orange-400 transition-colors duration-300 relative group"
+                className="text-white hover:text-orange-400 transition-colors duration-300 relative group"
               >
                 {item.label}
                 <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-orange-500 group-hover:w-full transition-all duration-300"></div>
@@ -71,13 +71,13 @@ const Header = () => {
 
       {/* Mobile Navigation */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white/95 dark:bg-black/95 backdrop-blur-lg border-b border-orange-500/20 transition-all duration-300">
+        <div className="md:hidden bg-black/95 backdrop-blur-lg border-b border-orange-500/20 transition-all duration-300">
           <div className="px-2 pt-2 pb-3 space-y-1">
             {navItems.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
-                className="block px-3 py-2 text-gray-900 dark:text-white hover:text-orange-400 hover:bg-orange-500/10 rounded-md transition-all duration-300"
+                className="block px-3 py-2 text-white hover:text-orange-400 hover:bg-orange-500/10 rounded-md transition-all duration-300"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {item.label}

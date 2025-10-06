@@ -8,14 +8,12 @@ import Quotation from './components/Quotation';
 import ChannelPartners from './components/ChannelPartners';
 import ChatBot from './components/ChatBot';
 import WhatsAppChat from './components/WhatsAppChat';
-import ThemeToggle from './components/ThemeToggle';
 import Footer from './components/Footer';
 
 function App() {
   return (
-    <div className="min-h-screen transition-all duration-500 bg-gradient-to-br from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-black dark:to-gray-800">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800">
       <Header />
-      <ThemeToggle />
       <Hero />
       <About />
       <Services />
