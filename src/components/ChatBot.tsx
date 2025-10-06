@@ -8,18 +8,30 @@ interface Message {
   timestamp: Date;
 }
 
+interface UserInfo {
+  name: string;
+  phone: string;
+  isCollected: boolean;
+}
+
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: 'Hello! I\'m your solar energy assistant. How can I help you today?',
+      text: 'Hello! Welcome to Sriyaveda Solar Energies! 🌞\n\nI\'m your solar energy assistant. To provide you with personalized assistance, may I please have your name?',
       sender: 'bot',
       timestamp: new Date()
     }
   ]);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [userInfo, setUserInfo] = useState<UserInfo>({
+    name: '',
+    phone: '',
+    isCollected: false
+  });
+  const [collectingInfo, setCollectingInfo] = useState<'name' | 'phone' | 'complete'>('name');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const quickQuestions = [
@@ -48,6 +60,17 @@ const ChatBot = () => {
   const handleSendMessage = async (text: string) => {
     if (!text.trim()) return;
 
+    // Handle user information collection
+    if (!userInfo.isCollected) {
+      if (collectingInfo === 'name') {
+        setUserInfo(prev => ({ ...prev, name: text }));
+        setCollectingInfo('phone');
+      } else if (collectingInfo === 'phone') {
+        setUserInfo(prev => ({ ...prev, phone: text, isCollected: true }));
+        setCollectingInfo('complete');
+      }
+    }
+
     const userMessage: Message = {
       id: Date.now().toString(),
       text: text,
@@ -75,6 +98,15 @@ const ChatBot = () => {
   };
 
   const getBotResponse = (userText: string): string => {
+    // If we're still collecting user information
+    if (!userInfo.isCollected) {
+      if (collectingInfo === 'name') {
+        return `Nice to meet you, ${userText}! 😊\n\nNow, could you please share your phone number so I can assist you better?`;
+      } else if (collectingInfo === 'phone') {
+        return `Thank you ${userInfo.name}! 🙏\n\nI have your details:\n📞 ${userText}\n\nNow I'm ready to help you with all your solar energy needs! What would you like to know about?\n\n• Solar savings calculations\n• Custom quotations\n• Installation process\n• Partnership opportunities`;
+      }
+    }
+
     const text = userText.toLowerCase();
     
     if (text.includes('calculator') || text.includes('savings') || text.includes('calculate')) {
@@ -86,7 +118,7 @@ const ChatBot = () => {
     } else if (text.includes('partner') || text.includes('dealer') || text.includes('business')) {
       return botResponses.partner;
     } else if (text.includes('hello') || text.includes('hi') || text.includes('hey')) {
-      return "Hello! Welcome to Sriyaveda Solar Energies. I'm here to help you with all your solar energy needs. What can I assist you with today?";
+      return `Hello ${userInfo.name}! Welcome back to Sriyaveda Solar Energies. I'm here to help you with all your solar energy needs. What can I assist you with today?`;
     } else if (text.includes('cost') || text.includes('expensive')) {
       return "Solar installation costs vary based on system size and components. Our systems typically range from ₹65,000 to ₹1,05,000 per kW. With government subsidies and our financing options, solar becomes very affordable. Would you like a personalized quote?";
     } else if (text.includes('warranty') || text.includes('guarantee')) {
@@ -188,7 +220,7 @@ const ChatBot = () => {
           </div>
 
           {/* Quick Questions */}
-          {messages.length === 1 && (
+          {userInfo.isCollected && messages.length <= 3 && (
             <div className="p-4 border-t border-gray-800">
               <p className="text-gray-400 text-sm mb-3">Quick questions:</p>
               <div className="grid grid-cols-2 gap-2">
@@ -214,7 +246,13 @@ const ChatBot = () => {
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSendMessage(inputText)}
-                placeholder="Type your message..."
+                placeholder={
+                  !userInfo.isCollected 
+                    ? collectingInfo === 'name' 
+                      ? "Enter your name..." 
+                      : "Enter your phone number..."
+                    : "Type your message..."
+                }
                 className="flex-1 bg-gray-800 text-white rounded-xl px-4 py-2 border border-gray-700 focus:border-orange-400 focus:outline-none transition-colors text-sm"
               />
               <button
