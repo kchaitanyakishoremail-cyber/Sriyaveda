@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { supabase, PartnerQuotation } from '../lib/supabase';
-import { FileText, Eye, Edit, Calendar, Phone, Mail, Zap } from 'lucide-react';
+import { FileText, Eye, CreditCard as Edit, Calendar, Phone, Mail, Zap } from 'lucide-react';
 
 const PartnerQuotationList = () => {
   const { partner } = useAuth();
