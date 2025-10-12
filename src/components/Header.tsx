@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { Menu, X, Sun, Zap } from 'lucide-react';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const navItems = [
     { href: '#home', label: 'Home' },
@@ -13,6 +18,15 @@ const Header = () => {
     { href: '#partners', label: 'Partners' },
     { href: '#contact', label: 'Contact' }
   ];
+
+  const handleAuthAction = async () => {
+    if (user) {
+      await signOut();
+      navigate('/');
+    } else {
+      navigate('/partner/auth');
+    }
+  };
 
   return (
     <header className="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-md border-b border-orange-500/20 transition-all duration-300">
@@ -49,6 +63,22 @@ const Header = () => {
 
           {/* CTA Button */}
           <div className="hidden md:flex items-center space-x-4">
+            <button 
+              onClick={handleAuthAction}
+              className="border-2 border-teal-400 text-teal-400 px-6 py-2 rounded-full hover:bg-teal-400 hover:text-black transition-all duration-300 hover:scale-105"
+            >
+              {user ? 'Sign Out' : 'Partner Login'}
+            </button>
+            
+            {user && (
+              <button 
+                onClick={() => navigate('/partner/dashboard')}
+                className="bg-gradient-to-r from-purple-500 to-purple-600 text-white px-6 py-2 rounded-full hover:from-purple-600 hover:to-purple-700 transition-all duration-300 hover:scale-105"
+              >
+                Dashboard
+              </button>
+            )}
+            
             <button className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-2 rounded-full hover:from-orange-600 hover:to-orange-700 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-orange-500/30 group">
               <span className="flex items-center space-x-2">
                 <Zap className="h-4 w-4 group-hover:animate-bounce" />
@@ -83,6 +113,26 @@ const Header = () => {
                 {item.label}
               </a>
             ))}
+            
+            <button
+              onClick={handleAuthAction}
+              className="block w-full text-left px-3 py-2 text-teal-400 hover:text-teal-300 hover:bg-teal-500/10 rounded-md transition-all duration-300"
+            >
+              {user ? 'Sign Out' : 'Partner Login'}
+            </button>
+            
+            {user && (
+              <button
+                onClick={() => {
+                  navigate('/partner/dashboard');
+                  setIsMenuOpen(false);
+                }}
+                className="block w-full text-left px-3 py-2 text-purple-400 hover:text-purple-300 hover:bg-purple-500/10 rounded-md transition-all duration-300"
+              >
+                Dashboard
+              </button>
+            )}
+            
             <button className="w-full mt-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-2 rounded-full hover:from-orange-600 hover:to-orange-700 transition-all duration-300">
               Get Quote
             </button>
