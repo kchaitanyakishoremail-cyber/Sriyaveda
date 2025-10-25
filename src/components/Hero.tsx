@@ -30,7 +30,7 @@ const Hero = () => {
         </div>
         
         {/* Energy Flow Lines */}
-        <div className="absolute inset-0 hidden md:block">
+        <div className="absolute inset-0">
           {[...Array(6)].map((_, i) => (
             <div
               key={i}
@@ -43,13 +43,6 @@ const Hero = () => {
               }}
             ></div>
           ))}
-        </div>
-        
-        {/* Mobile-friendly background elements */}
-        <div className="absolute inset-0 md:hidden">
-          <div className="absolute top-1/4 left-1/4 w-2 h-20 bg-gradient-to-t from-transparent via-orange-400 to-transparent opacity-20 animate-pulse"></div>
-          <div className="absolute top-1/3 right-1/4 w-2 h-16 bg-gradient-to-t from-transparent via-teal-400 to-transparent opacity-20 animate-pulse animation-delay-1000"></div>
-          <div className="absolute bottom-1/3 left-1/3 w-2 h-12 bg-gradient-to-t from-transparent via-yellow-400 to-transparent opacity-20 animate-pulse animation-delay-2000"></div>
         </div>
       </div>
 
